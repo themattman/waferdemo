@@ -1,13 +1,3 @@
-## Skeleton for Node apps
+## WaferDB Demo App
 
-Meant for rapid prototyping.
-
-### How to use
-
-`git clone git@github.com:themattman/node-skeleton.git`
-
-`cd node-skeleton`
-
-`npm install`
-
-`node server`
+A Demo Web App that showcases WaferDB
