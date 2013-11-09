@@ -4,6 +4,7 @@ var express = require('express')
   , router  = require('./router.js')
   , config  = require('./config.js')
   , http    = require('http')
+  , wafer   = require('waferDB.js/wafer.js').server
 ;
 
 // setup here
