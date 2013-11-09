@@ -1,4 +1,4 @@
-var mongo = require('./database.js')
+/*var mongo = require('./database.js')
 ;
 
 mongo.connect(function(msg) {
@@ -6,7 +6,7 @@ mongo.connect(function(msg) {
     console.log("Mongo Connected!");
   else 
     console.log(msg);
-});
+});*/
 
 // main page
 exports.index = function(req, res){
