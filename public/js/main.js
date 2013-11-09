@@ -7,6 +7,10 @@ var wafer = (function(){
     , socket_id = null
   ;
 
+  /**
+    * Socket.IO Event Handling
+    *
+    */
   socket.on('connecting', function(){
     console.log('connecting');
   });
@@ -29,20 +33,26 @@ var wafer = (function(){
     console.log(data);
   });
 
+
   function inCache(key){
     // Lookup the key in the cache
     // returns 'true' if the key is in the cache
     // returns 'false' otherwise
-    return true; // for testing purposes only
+    if(cache[key]) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
-  function getKey(key){
+  function getFromCache(key){
     // Retrieve the value associated with the given key from the cache
-    return true; // for testing purposes only
+    return cache[key];
   }
 
-  function writeCache(key, value){
+  function writeToCache(key, value){
     // write to the cache
+    cache[key] = value;
   }
 
   /**
@@ -64,12 +74,15 @@ var wafer = (function(){
         console.log('#get_ack#');
         console.log(data);
 
+        // Cache the retrieved value
+        writeToCache(key, data.value);
+
         // return to user
-        cb({ 'result': data });
+        cb(data);
       });
     } else {
       // Retrieve from cache & return to user
-      cb({ 'result': getKey(key) });
+      cb(getFromCache(key));
     }
   };
 
@@ -98,7 +111,7 @@ var wafer = (function(){
       } else {
         if(inCache(key)) {
           // Modify cache after server's put_ack
-          writeCache(key, value);
+          writeToCache(key, value);
         }
 
         // return to user
