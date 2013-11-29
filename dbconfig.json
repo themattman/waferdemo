@@ -1,0 +1,8 @@
+{
+  "db": "mongo",
+  "username": "yolo",
+  "password": "yolo",
+  "hostname": "yolo",
+  "port": "yolo",
+  "namespace": "yolo"
+}
