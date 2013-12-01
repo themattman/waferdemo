@@ -1,4 +1,4 @@
 // main page
 exports.index = function(req, res){
-  res.render('index', { title: 'Matt Kneiser' });
+  res.render('index', { title: 'WaferDB Demo' });
 };
