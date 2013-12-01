@@ -55,57 +55,30 @@ var wafer = (function(){
     cache[key] = value;
   }
 
-  /**
-    * GET:
-    *  responds from cache
-    *  otherwise goes to server
-    *
-    */
-  API.get = function(key, cb){
-    console.log('client_get('+key+')');
-
-    if(!inCache(key)) {
-      /**
-        * GET from server
-        *
-        */
-      socket.emit('get', { 'key': key });
-      socket.on('get_ack', function(data) {
-        console.log('#get_ack#');
-        console.log(data);
-
-        // Cache the retrieved value
-        writeToCache(key, data.value);
-
-        // return to user
-        cb(data);
-      });
-    } else {
-      // Retrieve from cache & return to user
-      cb(getFromCache(key));
-    }
-  };
+  function removeFromCache(key){
+    // remove from cache
+    delete cache[key];
+  }
 
   /**
-    * PUT:
+    * CREATE:
     *  writes value to server
     *  writes value to cache
     *
     */
-  API.put = function(key, value, cb){
-    console.log('client_put('+key+', '+value+')');
+  API.create = function(key, value, cb){
+    console.log('client_create('+key+', '+value+')');
 
     /**
       * PUT to server
       *
       */
-    socket.emit('put', { 'key': key, 'value': value });
-    socket.on('put_ack', function(data) {
-      console.log('#put_ack#');
+    socket.emit('create', { 'key': key, 'value': value });
+    socket.on('create_ack', function(data) {
+      console.log('#create_ack#');
       console.log(data);
 
       if(data.result === 'error') {
-
         // return to user
         cb({ 'result': 'error' });
       } else {
@@ -119,25 +92,51 @@ var wafer = (function(){
       }
     });
   };
+
+  /**
+    * READ:
+    *  responds from cache
+    *  otherwise goes to server
+    *
+    */
+  API.read = function(key, cb){
+    console.log('client_read('+key+')');
+
+    if(!inCache(key)) {
+      /**
+        * READ from server
+        *
+        */
+      socket.emit('read', { 'key': key });
+      socket.on('read_ack', function(data) {
+        console.log('#read_ack#');
+        console.log(data);
+
+        // Cache the retrieved value
+        writeToCache(key, data.value);
+
+        // return to user
+        cb(data);
+      });
+    } else {
+      // Retrieve from cache & return to user
+      cb(getFromCache(key));
+    }
+  };
   
-  
-    /**
+  /**
     * UPDATE:
     *  goes to server to add the line
     * Server could already have the line, in which case update the cache acordingly
-    */
-  /*  
-  API.update = function(key, cb){
-    console.log('client_update('+key+')');
+    */  
+  API.update = function(key, value, cb){
+    console.log('client_update('+key+', '+value+')');
   
-    
-  */  
       /**
         * GET from server
         *
         */
-  /*      
-      socket.emit('update', { 'key': key });
+      socket.emit('update', { 'key': key, 'value': value });
       socket.on('update_ack', function(data) {
         console.log('#update_ack#');
         console.log(data);
@@ -160,7 +159,6 @@ var wafer = (function(){
       });
     
   };
-  */
 
 
  /**
@@ -169,16 +167,14 @@ var wafer = (function(){
     *  Deletes value from cache
     *
     */
-  /*  
-  API.delete = function(key, value, cb){
-    console.log('client_delete('+key+', '+value+')');
+  API.delete = function(key, cb){
+    console.log('client_delete('+key+')');
 
     /**
       * Delete in server
       *
       */
-    /*  
-    socket.emit('delete', { 'key': key, 'value': value });
+    socket.emit('delete', { 'key': key });
     socket.on('delete_ack', function(data) {
       console.log('#delete_ack#');
       console.log(data);
@@ -198,24 +194,14 @@ var wafer = (function(){
       }
     });
   };
-  
-*/
 
-/*
-// removeFromCache
-// Array Remove - By John Resig (MIT Licensed)
-Cache.remove = function(cache, from, to) {
-  var rest = cache.slice((to || from) + 1 || cache.length);
-  cache.length = from < 0 ? cache.length + from : from;
-  return cache.push.apply(cache, rest);
-};
-
-  function removeFromCache(key){
-    // remove from cache
-    cache.remove(key);
-  }
-
-*/
+  // removeFromCache
+  // Array Remove - By John Resig (MIT Licensed)
+  /*Cache.remove = function(cache, from, to) {
+    var rest = cache.slice((to || from) + 1 || cache.length);
+    cache.length = from < 0 ? cache.length + from : from;
+    return cache.push.apply(cache, rest);
+  };*/
 
   return API;
 })();
