@@ -70,7 +70,7 @@ var wafer = (function(){
     console.log('client_create('+key+', '+value+')');
 
     /**
-      * PUT to server
+      * CREATE to server
       *
       */
     socket.emit('create', { 'key': key, 'value': value });
@@ -78,18 +78,15 @@ var wafer = (function(){
       console.log('#create_ack#');
       console.log(data);
 
-      if(data.result === 'error') {
-        // return to user
-        cb({ 'result': 'error' });
-      } else {
+      if(data.success) {
         if(inCache(key)) {
-          // Modify cache after server's put_ack
+          // Modify cache after server's create_ack
           writeToCache(key, value);
         }
-
-        // return to user
-        cb({ 'result': 'success' });
       }
+
+      // return to user
+      cb(data);
     });
   };
 
@@ -112,8 +109,10 @@ var wafer = (function(){
         console.log('#read_ack#');
         console.log(data);
 
-        // Cache the retrieved value
-        writeToCache(key, data.value);
+        if(data.success) {
+          // Cache the retrieved value
+          writeToCache(key, data.value);
+        }
 
         // return to user
         cb(data);
@@ -141,18 +140,12 @@ var wafer = (function(){
         console.log('#update_ack#');
         console.log(data);
 
-        // Cache the retrieved value
-        writeToCache(key, data.value);
-
-        // return to user
-        cb(data);
-      });
-      socket.on('update_nack', function(data) {
-        console.log('#update_nack - key exists#');
-        console.log(data);
-
-        // Cache the retrieved value
-        writeToCache(key, data.value);
+        if(data.success) {
+          if(inCache(key)) {
+            // Cache the retrieved value
+            writeToCache(key, data.value);
+          }
+        }
 
         // return to user
         cb(data);
@@ -179,29 +172,16 @@ var wafer = (function(){
       console.log('#delete_ack#');
       console.log(data);
 
-      if(data.result === 'error') {
-
-        // return to user
-        cb({ 'result': 'error' });
-      } else {
+      if(data.success) {
         if(inCache(key)) {
           // Delete cache line after server's delete_ack
           removeFromCache(key);
         }
-
-        // return to user
-        cb({ 'result': 'success' });
       }
+
+      cb(data);
     });
   };
-
-  // removeFromCache
-  // Array Remove - By John Resig (MIT Licensed)
-  /*Cache.remove = function(cache, from, to) {
-    var rest = cache.slice((to || from) + 1 || cache.length);
-    cache.length = from < 0 ? cache.length + from : from;
-    return cache.push.apply(cache, rest);
-  };*/
 
   return API;
 })();
