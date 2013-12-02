@@ -29,6 +29,7 @@ var wafer = (function(){
     console.log('disconnected');
   });
   socket.on('invalidate', function(data){
+    console.group('INVALIDATE');
     console.log(data);
     if(inCache(data.key)) {
       if(!data.value) {
@@ -37,6 +38,7 @@ var wafer = (function(){
         writeToCache(data.key, data.value);
       }
     }
+    console.groupEnd();
   });
   socket.on('error', function(data){
     console.log('ERROR!');
