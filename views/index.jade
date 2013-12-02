@@ -3,30 +3,33 @@ extends layout
 block append content
   h1= title
   p Welcome to #{title}
-  .crud-box
-    input.create-box-key.span2(placeholder="key")
-    input.create-box-value.span2.offset2(placeholder="value")
-    a.btn.btn-success CREATE
-    br
-    br
-    input.read-box-key.span2(placeholder="key")
-    a.btn.btn-info READ
-    br
-    br
-    input.update-box-key.span2(placeholder="key")
-    input.update-box-value.span2(placeholder="value")
-    a.btn.btn-warning UPDATE
-    br
-    br
-    input.delete-box-key.span2(placeholder="key")
-    a.btn.btn-danger DELETE
-  .cache-box
-    table.table.table-striped.table-bordered.span4
-      thead
-        tr
-          td key
-          td value
-      tbody.data-tbody
+  .box
+    svg(width="20px", height="20px")
+      circle#status(cx="10", cy="10", r="10", fill="red")
+    .crud-box
+      input.create-box-key.span5(placeholder="key")
+      input.create-box-value.span5.offset2(placeholder="value")
+      a.btn.btn-success CREATE
+      br
+      br
+      input.read-box-key.span5(placeholder="key")
+      a.btn.btn-info READ
+      br
+      br
+      input.update-box-key.span5(placeholder="key")
+      input.update-box-value.span5(placeholder="value")
+      a.btn.btn-warning UPDATE
+      br
+      br
+      input.delete-box-key.span5(placeholder="key")
+      a.btn.btn-danger DELETE
+    .cache-box
+      table.table.table-striped.table-bordered.span4
+        thead
+          tr
+            td key
+            td value
+        tbody.data-tbody
 
 block append scripts
   script(src="/js/app.js")

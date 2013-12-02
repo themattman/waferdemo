@@ -14,9 +14,13 @@ var wafer = (function(){
     */
   socket.on('connecting', function(){
     console.log('connecting');
+    $('#status').attr('fill', 'yellow');
+    d3.select("#status").style("fill", 'yellow');
   });
   socket.on('connect', function(){
     console.log('connected');
+    $('#status').attr('fill', 'green');
+    d3.select("#status").style("fill", 'green');
   });
   socket.on('get_connected_id', function(data){
     console.log('get_connected_id', data);
@@ -25,9 +29,13 @@ var wafer = (function(){
   socket.on('reconnect', function(){
     console.log('reconnected');
     socket.emit('reconnect', { 'socket_id': socket_id });
+    //$('#status').attr('fill', 'yellow');
+    d3.select("#status").style("fill", 'yellow');
   });
   socket.on('disconnect', function(){
     console.log('disconnected');
+    $('#status').attr('fill', 'red');
+    d3.select("#status").style("fill", 'red');
   });
   socket.on('invalidate', function(data){
     console.group('INVALIDATE');
