@@ -4,7 +4,9 @@ setTimeout(function(){
     //console.log('app.create_cb', data);
     //wafer.read('matt', function(res){
       //console.log(res);
-      wafer.update('matt', 'funny', function(res){
+      
+      setTimeout(function(){
+        wafer.update('matt', 'funny', function(res){
         //console.log('app.update_cb', res);
 
         /*setTimeout(function(){
@@ -20,6 +22,7 @@ setTimeout(function(){
         }, 2000);*/
 
       });
+      }, 2000);
     });
   //});
 }, 2000);

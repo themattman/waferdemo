@@ -5,6 +5,7 @@ var wafer = (function(){
     , API       = {}
     , cache     = {}
     , socket_id = null
+    , demo      = true
   ;
 
   /**
@@ -37,6 +38,10 @@ var wafer = (function(){
       } else {
         writeToCache(data.key, data.value);
       }
+
+      if(demo) {
+        $('.data-tbody #'+data.key).text(data.value);
+      }
     }
     console.groupEnd();
   });
@@ -65,6 +70,13 @@ var wafer = (function(){
   function writeToCache(key, value){
     // write to the cache
     cache[key] = value;
+    console.log('writeToCache');
+    if($('.row-'+key).length > 0) {
+      console.log(value);
+      $('.row-'+key)[0].lastChild.innerHTML = value
+    } else {
+      $('.data-tbody').append('<tr class="row-'+key+'"><td>'+key+'</td><td>'+value+'</td></tr>');
+    }
   }
 
   function removeFromCache(key){
@@ -92,10 +104,8 @@ var wafer = (function(){
       console.groupEnd();
 
       if(data.success) {
-        if(inCache(key)) {
-          // Modify cache after server's create_ack
-          writeToCache(key, value);
-        }
+        // Modify cache after server's create_ack
+        writeToCache(key, value);
       }
 
       // return to user
@@ -157,10 +167,8 @@ var wafer = (function(){
         console.groupEnd();
 
         if(data.success) {
-          if(inCache(key)) {
-            // Cache the retrieved value
-            writeToCache(key, data.value);
-          }
+          // Cache the retrieved value
+          writeToCache(key, value);
         }
 
         // return to user
