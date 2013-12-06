@@ -42,6 +42,7 @@ var wafer = (function(){
     console.log(data);
     if(inCache(data.key)) {
       if(!data.value) {
+        console.log('removing from cache');
         removeFromCache(data.key);
       } else {
         writeToCache(data.key, data.value);
@@ -90,6 +91,7 @@ var wafer = (function(){
   function removeFromCache(key){
     // remove from cache
     delete cache[key];
+    $('.row-'+key).remove();
   }
 
   /**

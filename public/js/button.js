@@ -33,3 +33,7 @@ $('.btn-danger').click(function(e){
     }
   });
 });
+
+$("svg").append("circle").attr("cx", 30)
+                         .attr("cy", 30)
+                         .attr("r", 20);
