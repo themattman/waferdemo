@@ -103,24 +103,27 @@ var wafer = (function(){
   API.create = function(key, value, cb){
     console.group('CREATE');
     console.log('waferdb_client.create('+key+', '+value+')');
+    if(!key) {
+      cb({'error': 'empty key provided'});
+    } else {
+      /**
+        * CREATE to server
+        *
+        */
+      socket.emit('create', { 'key': key, 'value': value });
+      socket.on('create_ack', function(data) {
+        console.log('waferdb_client.create_ack', data);
+        console.groupEnd();
 
-    /**
-      * CREATE to server
-      *
-      */
-    socket.emit('create', { 'key': key, 'value': value });
-    socket.on('create_ack', function(data) {
-      console.log('waferdb_client.create_ack', data);
-      console.groupEnd();
+        if(data.success) {
+          // Modify cache after server's create_ack
+          writeToCache(key, value);
+        }
 
-      if(data.success) {
-        // Modify cache after server's create_ack
-        writeToCache(key, value);
-      }
-
-      // return to user
-      cb(data);
-    });
+        // return to user
+        cb(data);
+      });
+    }
   };
 
   /**
@@ -132,8 +135,9 @@ var wafer = (function(){
   API.read = function(key, cb){
     console.group('READ');
     console.log('waferdb_client.read('+key+')');
-
-    if(!inCache(key)) {
+    if(!key) {
+      cb({'error': 'empty key provided'});
+    } else if(!inCache(key)) {
       /**
         * READ from server
         *
@@ -166,7 +170,9 @@ var wafer = (function(){
   API.update = function(key, value, cb){
     console.group('UPDATE');
     console.log('waferdb_client.update('+key+', '+value+')');
-  
+    if(!key) {
+      cb({'error': 'empty key provided'});
+    } else {
       /**
         * GET from server
         *
@@ -184,6 +190,7 @@ var wafer = (function(){
         // return to user
         cb(data);
       });
+    }
     
   };
 
@@ -197,25 +204,28 @@ var wafer = (function(){
   API.delete = function(key, cb){
     console.group('DELETE');
     console.log('waferdb_client.delete('+key+')');
+    if(!key) {
+      cb({'error': 'empty key provided'});
+    } else {
+      /**
+        * Delete in server
+        *
+        */
+      socket.emit('delete', { 'key': key });
+      socket.on('delete_ack', function(data) {
+        console.log('waferdb_client.delete_ack', data);
+        console.groupEnd();
 
-    /**
-      * Delete in server
-      *
-      */
-    socket.emit('delete', { 'key': key });
-    socket.on('delete_ack', function(data) {
-      console.log('waferdb_client.delete_ack', data);
-      console.groupEnd();
-
-      if(data.success) {
-        if(inCache(key)) {
-          // Delete cache line after server's delete_ack
-          removeFromCache(key);
+        if(data.success) {
+          if(inCache(key)) {
+            // Delete cache line after server's delete_ack
+            removeFromCache(key);
+          }
         }
-      }
 
-      cb(data);
-    });
+        cb(data);
+      });
+    }
   };
 
   return API;

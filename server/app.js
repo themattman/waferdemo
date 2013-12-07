@@ -10,31 +10,35 @@ var express = require('express')
   , connect_string_local = "mongodb://"+secret.db.user+":"+secret.db.pass+"@localhost:27017/"+secret.db.name
 
   /** WAFER **/
-  //, redis   = require('redis')
-  //, client  = redis.createClient()
-  , mongo   = require('mongodb').MongoClient
+  , redis   = require('redis')
+  , client  = redis.createClient()
+  //, mongo   = require('mongodb').MongoClient
   , wafer   = require('waferDB.js/wafer.js').server
 ;
 
-/*
+
 wafer.init("redis", client);
 client.on('error', function(err){
   console.log(err);
 });
-*/
 
+/*
 // Connect to MongoDB
 mongo.connect(connect_string_local, function(msg, db) {
   if(msg == null) {
     console.log("Mongo Connected!".yellow);
-    /*db.collection('waferdb').insert({'_id': 'matttt', 'value': 'proj'}, function(err, result){
-        if(err){throw err;}
-        else console.log(result);
-      });;*/
     wafer.init("mongodb", db.collection('waferdb'));
   } else 
     console.log(msg);
 });
+*/
+
+/*
+db.collection('waferdb').insert({'_id': 'matttt', 'value': 'proj'}, function(err, result){
+  if(err){throw err;}
+  else console.log(result);
+});;
+*/
 
 // setup here
 config(app);
