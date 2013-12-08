@@ -6,39 +6,32 @@ var express = require('express')
   , secret  = require('./secret.js')
   , http    = require('http')
 
-  , connect_string       = "mongodb://"+secret.db.user+":"+secret.db.pass+"@"+secret.db.url+":"+secret.db.port+"/"+secret.db.name
-  , connect_string_local = "mongodb://"+secret.db.user+":"+secret.db.pass+"@localhost:27017/"+secret.db.name
+  , connect_string_remote = "mongodb://"+secret.db.user+":"+secret.db.pass+"@"+secret.db.url+":"+secret.db.port+"/"+secret.db.name
+  , connect_string_local  = "mongodb://"+secret.db.user+":"+secret.db.pass+"@localhost:27017/"+secret.db.name
+  , connect_string        = connect_string_remote
 
   /** WAFER **/
-  , redis   = require('redis')
-  , client  = redis.createClient()
-  //, mongo   = require('mongodb').MongoClient
+  //, redis   = require('redis')
+  //, client  = redis.createClient()
   , wafer   = require('waferDB.js/wafer.js').server
 ;
 
-
+/*
 wafer.init("redis", client);
 client.on('error', function(err){
   console.log(err);
-});
+});*/
 
-/*
+
 // Connect to MongoDB
-mongo.connect(connect_string_local, function(msg, db) {
+var mongo = require('mongodb').MongoClient;
+mongo.connect(connect_string, function(msg, db) {
   if(msg == null) {
     console.log("Mongo Connected!".yellow);
     wafer.init("mongodb", db.collection('waferdb'));
   } else 
     console.log(msg);
 });
-*/
-
-/*
-db.collection('waferdb').insert({'_id': 'matttt', 'value': 'proj'}, function(err, result){
-  if(err){throw err;}
-  else console.log(result);
-});;
-*/
 
 // setup here
 config(app);
