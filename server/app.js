@@ -27,10 +27,12 @@ client.on('error', function(err){
 var mongo = require('mongodb').MongoClient;
 mongo.connect(connect_string, function(msg, db) {
   if(msg == null) {
+    require('./router').giveDatabase(db.collection('waferdb'));
     console.log("Mongo Connected!".yellow);
     wafer.init("mongodb", db.collection('waferdb'));
-  } else 
+  } else {
     console.log(msg);
+  }
 });
 
 // setup here
@@ -41,8 +43,10 @@ config(app);
 // define API routes here
 // ---------------------------------------------------------- //
 // GET
-app.get('/', router.index);
-app.get('/2', router.second);
+app.get('/',          router.index   );
+app.get('/compare1',  router.compare1);
+app.get('/compare2',  router.compare2);
+app.get('/query',     router.query   );
 // ---------------------------------------------------------- //
 // ---------------------------------------------------------- //
 

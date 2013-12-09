@@ -15,3 +15,14 @@ a {
 .crud-box {
   margin-top: 20px;
 }
+.wafer-box {
+  display: inline;
+  float: left;
+}
+.other-box {
+  display: inline;
+  float: right;
+}
+.status-svg {
+  display: block;
+}

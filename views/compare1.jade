@@ -1,0 +1,20 @@
+extends layout
+
+block append content
+  h1= title
+  p Welcome to #{title}
+  .box
+    .status-svg
+      svg(width="50px", height="50px")
+        circle#status(cx="20", cy="20", r="10", fill="red")
+    .crud-box
+      table.table.table-striped.table-bordered.span4
+        thead
+          tr
+            td key
+            td value
+        tbody.data-tbody
+
+block append scripts
+  script(src="/js/compare1.js")
+  script(src="/js/graph.js")
