@@ -46,5 +46,11 @@ function totals() {
   //console.log(timer_start);
   console.log(results);
   console.log(avg);
+  var arr = [];
+  for(var i = 0; i < results.length; i++) {
+    arr.push({'x':i+1, 'y':results[i]});
+  }
+  console.log(JSON.stringify(arr));
+  build_graph(arr);
 }
 //$('.data-tbody').append();
