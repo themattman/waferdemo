@@ -15,12 +15,12 @@ A Demo Web App that showcases WaferDB
 
 5) Show the file format of the server_cache_backup
 
-6) Swap out redis for mongodb and perform CRUD
+6) Run a stress test with a live graph to show performance
 
-7) Swap out mongo for a cloud service, pull open cloud service to show the data is there
+7) Side by side with something that doesn't use wafer
 
-8) Run a stress test with a live graph to show performance
+8) Run on AWS and show how many clients can use it - have teammates open 10 tabs each for a total of 30 clients connected
 
-9) Side by side with something that doesn't use wafer
+9) Swap out redis for mongodb and perform CRUD
 
-10) Run on AWS and show how many clients can use it - have teammates open 10 tabs each for a total of 30 clients connected
+10) Swap out mongo for a cloud service, pull open cloud service to show the data is there
