@@ -17,6 +17,10 @@ exports.compare2 = function(req, res){
   res.render('compare2', { title: 'OtherDB' });
 };
 
+exports.graphs = function(req, res){
+  res.render('graphs', { title: 'Graphs' });
+};
+
 exports.query = function(req, res){
   //console.log('hit /query');
 

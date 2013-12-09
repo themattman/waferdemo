@@ -47,6 +47,7 @@ app.get('/',          router.index   );
 app.get('/compare1',  router.compare1);
 app.get('/compare2',  router.compare2);
 app.get('/query',     router.query   );
+app.get('/graphs',    router.graphs  );
 // ---------------------------------------------------------- //
 // ---------------------------------------------------------- //
 
