@@ -11,6 +11,7 @@
     "jade": "0.35.0",
     "less-middleware": "0.1.14",
     "mongodb": "1.3.20",
-    "redis": "0.9.1"
+    "redis": "0.9.1",
+    "waferdb": "0.0.1"
   }
 }

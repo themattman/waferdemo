@@ -13,7 +13,7 @@ var express = require('express')
   /** WAFER **/
   //, redis   = require('redis')
   //, client  = redis.createClient()
-  , wafer   = require('waferDB.js/wafer.js').server
+  , wafer   = require('waferdb/wafer.js').server
 ;
 
 /*
