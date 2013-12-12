@@ -3,37 +3,19 @@ var express = require('express')
   , colors  = require('colors')
   , router  = require('./router.js')
   , config  = require('./config.js')
-  , secret  = require('./secret.js')
   , http    = require('http')
 
-  , connect_string_remote = "mongodb://"+secret.db.user+":"+secret.db.pass+"@"+secret.db.url+":"+secret.db.port+"/"+secret.db.name
-  , connect_string_local  = "mongodb://"+secret.db.user+":"+secret.db.pass+"@localhost:27017/"+secret.db.name
-  , connect_string        = connect_string_remote
-
   /** WAFER **/
-  //, redis   = require('redis')
-  //, client  = redis.createClient()
+  , redis   = require('redis')
+  , client  = redis.createClient()
   , wafer   = require('waferdb/wafer.js').server
 ;
 
-/*
 wafer.init("redis", client);
 client.on('error', function(err){
   console.log(err);
-});*/
-
-
-// Connect to MongoDB
-var mongo = require('mongodb').MongoClient;
-mongo.connect(connect_string, function(msg, db) {
-  if(msg == null) {
-    require('./router').giveDatabase(db.collection('waferdb'));
-    console.log("Mongo Connected!".yellow);
-    wafer.init("mongodb", db.collection('waferdb'));
-  } else {
-    console.log(msg);
-  }
 });
+
 
 // setup here
 config(app);
@@ -50,8 +32,6 @@ app.get('/query',     router.query   );
 app.get('/graphs',    router.graphs  );
 // ---------------------------------------------------------- //
 // ---------------------------------------------------------- //
-
-
 
 
 // start the server
